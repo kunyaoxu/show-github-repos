@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { Octokit } from '@octokit/rest';
 import { Context } from 'globalContext';
 import { appendReposData, clearReposData, setIsEnd } from 'globalStore';
@@ -15,10 +15,12 @@ import {
 const ResultList = () => {
   const { store, dispatch } = useContext(Context);
   const { page, repos, username, isEnd } = store;
+  const isFetchSomething = useRef(false);
 
   const getNextPage = useCallback(() => {
-    if (!username || isEnd) return null;
+    if (!username || isEnd || isFetchSomething.current) return null;
 
+    isFetchSomething.current = true;
     const octokit = new Octokit();
     const nextPage = page + 1;
     octokit.repos
@@ -29,10 +31,12 @@ const ResultList = () => {
         } else {
           dispatch(setIsEnd());
         }
+        isFetchSomething.current = false;
       })
       .catch((e) => {
         console.error(e);
         dispatch(clearReposData());
+        isFetchSomething.current = false;
       });
   }, [dispatch, isEnd, page, username]);
 
