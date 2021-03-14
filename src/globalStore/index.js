@@ -45,6 +45,15 @@ export const appendReposData = ({ appendRepos, page }) => {
  */
 export const clearReposData = () => {
   return (state) => {
-    return { ...state, repos: [] };
+    return { ...state, repos: [], page: 0, username: '' };
+  };
+};
+
+/**
+ * @returns {(state: IState) => IState}
+ */
+export const setUsername = (username) => {
+  return (state) => {
+    return { ...state, username };
   };
 };

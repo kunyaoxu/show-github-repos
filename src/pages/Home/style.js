@@ -6,11 +6,6 @@ export const Wrapper = styled.div`
   height: 100vh;
 `;
 
-export const Header = styled.div`
-  height: 40px;
-  background-color: #cccccc;
-`;
-
 export const List = styled.div`
   flex: 1;
   overflow-y: auto;
@@ -18,5 +13,10 @@ export const List = styled.div`
 
 export const Item = styled.div`
   height: 200px;
-  width: 100%;
+  margin: 12px;
+  background-color: white;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 16px;
 `;

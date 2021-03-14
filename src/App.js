@@ -11,7 +11,7 @@ function App() {
     <Context.Provider value={{ store, dispatch }}>
       <Router>
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <Home />
           </Route>
         </Switch>
