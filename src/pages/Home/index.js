@@ -3,7 +3,15 @@ import { Octokit } from '@octokit/rest';
 import { Context } from 'globalContext';
 import { appendReposData, clearReposData } from 'globalStore';
 import Header from 'components/Header';
-import { Wrapper, List, Item } from './style';
+import {
+  Wrapper,
+  List,
+  Item,
+  RepoLink,
+  Title,
+  Language,
+  Description,
+} from './style';
 
 const Home = () => {
   const { store, dispatch } = useContext(Context);
@@ -50,13 +58,12 @@ const Home = () => {
           const { id, name, description, html_url, language } = data;
           return (
             <Item key={id}>
-              <div>title: {name}</div>
-              <div>description: {description}</div>
-              <div>language: {language}</div>
-              <div>link: {html_url}</div>
-              <a target="_blank" rel="noreferrer" href={html_url}>
-                the repo link
-              </a>
+              <Title>Title: {name}</Title>
+              <Description>Description: {description}</Description>
+              <Language>Language: {language}</Language>
+              <RepoLink target="_blank" rel="noreferrer" href={html_url}>
+                open the repository link
+              </RepoLink>
             </Item>
           );
         })}
