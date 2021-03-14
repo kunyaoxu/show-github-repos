@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useRef } from 'react';
 import { Octokit } from '@octokit/rest';
 import { Context } from 'globalContext';
 import { appendReposData, clearReposData, setIsEnd } from 'globalStore';
+import { COUNT_PER_PAGE } from 'constant';
 import {
   Wrapper,
   Item,
@@ -24,7 +25,7 @@ const ResultList = () => {
     const octokit = new Octokit();
     const nextPage = page + 1;
     octokit.repos
-      .listForUser({ username, per_page: 5, page: nextPage })
+      .listForUser({ username, per_page: COUNT_PER_PAGE, page: nextPage })
       .then((e) => {
         if (e?.data?.length > 0) {
           dispatch(appendReposData({ appendRepos: e.data, page: nextPage }));
