@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 0 12px;
   flex: 1;
   overflow-y: auto;
@@ -42,4 +40,9 @@ export const Language = styled.div`
 export const RepoLink = styled.a`
   align-self: flex-end;
   color: #0366d6;
+`;
+
+export const Nothing = styled(Item)`
+  min-height: initial;
+  text-align: center;
 `;

@@ -1,9 +1,9 @@
-export const initialState = {
+export const initialState = Object.freeze({
   repos: [],
   username: 'kunyaoxu',
   page: 0,
   isEnd: false,
-};
+});
 
 /**
  * @typedef {typeof initialState} IState
@@ -45,7 +45,7 @@ export const appendReposData = ({ appendRepos, page }) => {
  */
 export const clearReposData = () => {
   return (state) => {
-    return { ...state, repos: [], page: 0, username: '' };
+    return { ...initialState, username: '' };
   };
 };
 
@@ -55,5 +55,14 @@ export const clearReposData = () => {
 export const setUsername = (username) => {
   return (state) => {
     return { ...state, username };
+  };
+};
+
+/**
+ * @returns {(state: IState) => IState}
+ */
+export const setIsEnd = () => {
+  return (state) => {
+    return { ...state, isEnd: true };
   };
 };

@@ -1,28 +1,40 @@
 import { useCallback, useContext, useEffect } from 'react';
 import { Octokit } from '@octokit/rest';
 import { Context } from 'globalContext';
-import { appendReposData, clearReposData } from 'globalStore';
-import { Wrapper, Item, RepoLink, Title, Language, Description } from './style';
+import { appendReposData, clearReposData, setIsEnd } from 'globalStore';
+import {
+  Wrapper,
+  Item,
+  RepoLink,
+  Title,
+  Language,
+  Description,
+  Nothing,
+} from './style';
 
 const ResultList = () => {
   const { store, dispatch } = useContext(Context);
-  const { page, repos, username } = store;
+  const { page, repos, username, isEnd } = store;
 
   const getNextPage = useCallback(() => {
-    if (!username) return null;
+    if (!username || isEnd) return null;
 
     const octokit = new Octokit();
     const nextPage = page + 1;
     octokit.repos
       .listForUser({ username, per_page: 5, page: nextPage })
       .then((e) => {
-        dispatch(appendReposData({ appendRepos: e.data, page: nextPage }));
+        if (e?.data?.length > 0) {
+          dispatch(appendReposData({ appendRepos: e.data, page: nextPage }));
+        } else {
+          dispatch(setIsEnd());
+        }
       })
       .catch((e) => {
         console.error(e);
         dispatch(clearReposData());
       });
-  }, [dispatch, page, username]);
+  }, [dispatch, isEnd, page, username]);
 
   useEffect(() => {
     // 只在 page 第0頁然後 getNextPage 有變動時打 api
@@ -56,6 +68,7 @@ const ResultList = () => {
           </Item>
         );
       })}
+      {isEnd && <Nothing>nothing else ...</Nothing>}
     </Wrapper>
   );
 };
